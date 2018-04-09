@@ -118,8 +118,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
 # 邮件设置
 EMAIL_HOST = "smtp.sina.com"
 EMAIL_PORT = 25
-EMAIL_HOST_USER = 'xiaozhangchiren@sina.com'
-EMAIL_HOST_PASSWORD = 'zyk5263901'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_SUBJECT_PREFIX = '[BOOK SHOP]'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
