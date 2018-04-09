@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	{% load staticfiles %}
+	<!-- <link rel="shortcut icon" href="{% static 'favicon.ico' %}" /> -->
+	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+				<div class="navbar-header">
+					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="{% url 'index' %}">old book</a>
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active">
+							 <a href="{% url 'index' %}">主页</a>
+						</li>
+						<li>
+							 <a href="{% url 'post:write' %}">发布</a>
+						</li>
+						
+					</ul>
+					<form class="navbar-form navbar-left" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" />
+						</div> <button type="submit" class="btn btn-default">Submit</button>
+					</form>
+					<ul class="nav navbar-nav navbar-right">
+
+						{% if username %}
+							<li><a href="{% url 'buy:show_buycar' %}"><span class="glyphicon glyphicon-shopping-cart"></span> 购物车</a></li>
+							<li><a href="{% url 'buy:user_order' %}"><span class="glyphicon glyphicon-shopping-cart"></span> 订单</a></li>
+							<li class="dropdown">
+								 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<img class="img-thumbnail post-head" src="{{user.profile.head_cut.url}}">
+									{{ user.profile.nickname }}
+									<strong class="caret"></strong>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="{% url 'yonghu:profile' user.id %}">资料</a></li>
+									<li><a href="{% url 'post:user_post' user.id %}">我发布的</a></li>
+									<li><a href="#">change password(未做)</a></li>
+									<li class="divider"></li>
+									<li><a href="{% url 'yonghu:logout' %}">注销</a></li>
+								</ul>
+							</li>
+						{% else %}
+							<li><a href="/accounts/register">注册</a></li>
+							<li><a href="{% url 'yonghu:login' %}">登录</a></li>
+						{% endif %}
+						
+						<li>&nbsp;&nbsp;</li>
+					</ul>
+				</div>
+				
+			</nav>
+		</div>
+	</div>
+<br><br><br><br>
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			{% for message in messages %}
+			<div class="alert alert-dismissable alert-info">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				<strong>{{message.tags}}!</strong> {{ message }}
+			</div>
+			{% endfor %}
+
+			{% block head %}
+			{% endblock %}
+		</div>
+	</div>
+	<!-- banner end -->
+	<div class="row clearfix">
+		{% block content %}
+		{% endblock %}
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="page-header">
+				<h1>
+					个人学习制作 <small>邮箱：1019437875@qq.com</small>
+				</h1>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

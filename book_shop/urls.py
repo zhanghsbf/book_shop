@@ -15,7 +15,22 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from post.views import *
+from yonghu.views import *
+from backmanage.views import *
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', index, name='index'),
+    url(r'^user/', include('yonghu.urls', namespace='yonghu')),
+    url(r'^post/', include('post.urls', namespace='post')),
+    url(r'^accounts/', include('registration.backends.hmac.urls')),
+    url(r'^transfer/$', login_required_transfer),
+    url(r'^buy/', include('buy.urls', namespace='buy')),
+    url(r'^manage/', include('backmanage.urls', namespace='manage')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

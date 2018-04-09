@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Zlog - 撰写{% endblock %}
+
+{% block content %}
+<div class="row clearfix">
+	<div class="col-md-12 column">
+		<form role="form" action="." method="POST" enctype='multipart/form-data'>
+			{% csrf_token %}
+			<div class="form-group">
+				<label for="id_category">Category:</label> 
+				<select id="id_category" name="category">
+					<option value="" selected="selected">---------</option>
+					<option value="1">文史类</option>
+					<option value="2">武侠类</option>
+					<option value="3">IT类</option>
+					<option value="4">科普类</option>
+					<option value="5">其他类</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="post_title">商品-标题</label>
+				<input type="text" name="title" class="form-control" id="post_title" placeholder="这里输入标题...">
+			</div>
+			<div class="form-group">
+				<label for="post_body">商品-详细</label>
+				<textarea class="form-control" rows="3" id="post_body" name="body" placeholder="你想写点什么..."></textarea>
+			</div>
+			<div class="form-group">
+				<label for="id_price">Price:</label> <input id="id_price" name="price" step="0.01" type="number" />
+			</div>
+			<div class="form-group">
+				<label for="id_origin_price">Origin price:</label> <input id="id_origin_price" name="origin_price" step="0.01" type="number" />
+			</div>
+			<div class="form-group">
+				<label for="post_photo1">图片1</label>
+				<input type="file" id="post_photo1" name="photo1">
+			</div>
+			<div class="form-group">
+				<label for="post_photo2">图片2</label>
+				<input type="file" id="post_photo2" name="photo2">
+			</div>
+
+			
+			<button type="submit" class="btn btn-default">发布</button>
+		</form>
+	</div>
+</div>
+{% endblock %}

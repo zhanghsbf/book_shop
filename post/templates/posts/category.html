@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}old book - 分类{% endblock %}
+
+{% block content %}
+<h3>{{category.name}}</h3>
+<div class="row clearfix">
+{% for i in cate_post %}
+<div class="panel panel-warning post-size">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a href="{% url 'post:post' i.id %}">{{ i.title }}</a>
+		</h3>
+	</div>
+	<div class="panel-body">
+		{{ i.body | truncatechars:20 }}&nbsp;&nbsp;&nbsp;
+		<a href="{% url 'post:post' i.id %}">详情>>></a>
+		<div>
+			<div class="panel-body">
+				{% if i.photo1 %}
+				<img class="img-rounded post-img" src="{{ i.photo1.url }}">
+				{% endif %}
+			</div>
+			<p>原价：{{i.origin_price}}</p>
+			<p>售价：{{i.price}}</p>
+		</div>
+	</div>
+	<div class="panel-footer">
+		<div class="clearfix">
+			<div class="pull-left">
+				<span class="glyphicon glyphicon-eye-open"></span> 浏览量：{{i.view_times}}
+			</div>
+			<div class="pull-right">
+				发布时间：{{i.pub_date}}
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+{% endfor %}
+{% endblock %}

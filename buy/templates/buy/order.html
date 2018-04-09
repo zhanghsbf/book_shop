@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}old book - 订单{% endblock %}
+
+{% block content %}
+<div class="row clearfix">
+	<div class="col-md-12 column">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					买家：{{order.order.buyer}}&nbsp;&nbsp;&nbsp;
+					下单时间：{{order.order.generate_date}}
+				</h3>
+			</div>
+			<div class="panel-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>
+								卖家
+							</th>
+							<th>
+								商品
+							</th>
+							<th>
+								价格
+							</th>
+							<th>
+								状态
+							</th>
+							<th>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in order.items %}
+						<tr>
+							<td>
+								{{item.seller}}
+							</td>
+							<td>
+								{{item.post.title}}
+							</td>
+							<td>
+								{{item.price}}
+							</td>
+							<td>
+								{% if item.status == 0 %}
+									已提交
+								{% elif item.status == 1 %}
+									已确认
+								{% elif item.status == 2 %}
+									已发货
+								{% elif item.status == 3 %}
+									已完成
+								{% else %}
+									None
+								{% endif %}
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="panel-footer">
+				<p>收货地址：{{order.address}}</p>
+				<p>总价：{{order.total}}</p>
+				<p>下单时间：{{order.generate_date}}</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

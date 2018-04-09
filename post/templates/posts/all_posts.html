@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Zlog - 文章{% endblock %}
+
+{% block content %}
+<div class="row clearfix">
+	<div class="col-md-12 column">
+		{% for post in posts %}
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<div class="left"><span>商品名：</span>
+						<a class="aa" href="{% url 'post:post' post.id %}">{{ post.title }}</a>
+					</div>
+					<div class="right">
+						<span>发布者：</span>
+						<a class="aa" href="{% url 'yonghu:profile' post.user.id %}">
+							<img class="post-head" src="{{post.user.profile.head_cut.url}}">
+						</a>
+							{{ post.user.profile.nickname }}
+					</div>
+					<div class="row clearfix">
+				</h3>
+			</div>
+			<div class="panel-body bg-post">
+				<span><font color="blue" size="4">商品描述：</font></span><br>{{ post.body }}<br>
+			</div>
+			<div class="panel-body bg-post">
+				{% if post.photo1 %}
+				<img class="img-rounded post-img" src="{{ post.photo1.url }}">
+				{% endif %}
+				{% if post.photo2 %}
+				<img class="img-rounded post-img" src="{{ post.photo2.url }}">
+				{% endif %}
+				<br><br>
+				<p>原价：￥{{post.origin_price}}</p>
+				<p>售价：￥{{post.price}}</p>
+			</div>
+			<div class="panel-footer" >
+				<div class="clearfix">
+					<div class="pull-left">
+						<span class="glyphicon glyphicon-eye-open"></span> 浏览量：{{post.view_times}}
+					</div>
+					<div class="pull-right">
+						发布时间：{{post.pub_date}}
+					</div>
+				</div>
+			</div>
+		</div>
+		{% empty %}
+		<div class="panel">
+			<div class="panel-body">
+				还没有想分享的书耶...
+			</div>
+		</div>
+		{% endfor %}
+		<ul class="pagination">
+			{% if not is_first_page %}
+			<li><a href="?page=1">Top</a></li>
+			<li><a href="?page={{prev_page}}">Prev</a></li>
+			{% endif %}
+			<li><a href="#">{{page}}</a></li>
+			{% if not is_last_page %}
+			<li><a href="?page={{next_page}}">Next</a></li>
+			<li><a href="?page={{total_page}}">end</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</div>
+{% endblock %}

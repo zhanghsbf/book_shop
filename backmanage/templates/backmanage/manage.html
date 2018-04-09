@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>old book - 后台管理</title>
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="/static/easyui/themes/default/easyui.css">   
+	<link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">
+	<script type="text/javascript" src="/static/easyui/jquery.min.js"></script>   
+	<script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script> 
+</head>
+<body class="easyui-layout">   
+    <div data-options="region:'north',title:' ',split:true" style="height:100px;">
+    	<h2 align='center'>old book 后台管理系统</h2>
+    </div>   
+    <div data-options="region:'west',title:'商品分类',split:true" style="width:300px;">
+    	<ul id="category" class="easyui-tree">   
+		    <li>   
+		        <span>书</span>   
+		        <ul>   
+                    <li id=1>   
+                        <span><a href="#" id=1>文史类</a></span>   
+                    </li>   
+                    <li id=2>   
+                        <span>武侠类</span>   
+                    </li>   
+                    <li id=3>   
+                        <span>IT类</span>   
+                    </li>   
+                     <li id=4>   
+		                <span>科普类</span>   
+		            </li>   
+		            <li id=5>   
+		                <span>其他类</span>   
+		            </li>   
+                </ul>   
+            </li>   
+		</ul>  
+    </div>   
+    <div data-options="region:'center',title:'center title'" style="padding:5px;background:#eee;">
+    	<table id="books"></table>
+    	<div id="add-form" class="easyui-window" title="添加" style="width:600px;\
+    	height:400px" data-options="iconCls:'icon-save',modal:true,closed:true" >   
+		    <form id="add" method="post"> 
+		    	{% csrf_token %} 
+		    	<div>   
+			        <label>卖家:</label>   
+			       <input id="cc" class="easyui-combobox" name="user"   data-options="valueField:'id',required:true,textField:'text',url:'/manage/add/user/'" /> 
+			    </div> <br>  
+			    <div>   
+			        <label>类型:</label>   
+			        <input id="cc" class="easyui-combobox" name="category"   data-options="valueField:'id', required:true, textField:'text',url:'/manage/add/category/'" /> 
+			    </div> <br> 
+			    <div>   
+			        <label>商品描述:</label>   
+		        	<input class="easyui-textbox" name='title' data-options="required:true" style="width:300px"> 
+			    </div> <br>  
+			    <div>   
+			        <label>商品描述:</label>   
+		        	<input class="easyui-textbox" name='body' data-options="required:true" style="width:300px"> 
+			    </div> <br> 
+			    <div>   
+			        <label>价格:</label>   
+		        	<input id="ss" name="price" class="easyui-numberspinner" style="width:80px;" required="required" data-options="min:0,max:100,editable:true,precision:2">  
+			    </div> <br> 
+			    <div>   
+			        <label>原价:</label>   
+		        	<input id="ss" name='origin_price' class="easyui-numberspinner" style="width:80px;" required="required" data-options="min:0,max:100,editable:true,precision:2">  
+			    </div> <br>  
+			</form>
+			<div id="bb">
+				<a id="btn-sub" href="#" class="easyui-linkbutton" data-options="">提交</a> 
+				<a id="btn-close" href="#" class="easyui-linkbutton" data-options="">关闭</a> 
+			</div>
+
+
+		</div>  
+
+
+    </div> 
+
+    <script type="text/javascript">
+    	$('#category').tree({
+					onClick: function(node){
+						$('#books').datagrid({
+							queryParams: {
+			    				category_id:node.id
+			    			}
+		    			})
+					}
+				});
+
+    	$('#books').datagrid({    
+				    url:'/manage/data/',  
+				    pagination: true,
+					pageList: [5,10,20,30],
+					pageSize: 5,
+				    toolbar: [{
+						iconCls: 'icon-add',
+						text: '添加',
+						handler: function(){
+							$('#add-form').window('open');
+						}
+					},'-',{
+						iconCls: 'icon-remove',
+						text: '删除',
+						handler: function(){
+							var a = $('#books').datagrid('getSelections');
+							alert(a)  ;
+						}
+					},'-',{
+						iconCls: 'icon-edit',
+						text: '..',
+						handler: function(){
+							var a = $('#books').datagrid('getSelections')
+							alert(a)
+						}
+					}],
+					
+				    columns:[[    
+				        {field:'category',title:'分类',width:100},    
+				        {field:'user',title:'卖家',width:100},    
+				        {field:'title',title:'名称',width:100},
+				        {field:'price',title:'价格',width:100},
+				        {field:'pub_date',title:'发布时间',width:150},
+				        {field:'view_times',title:'查看次数',width:100},
+				    ]],    
+				}); 
+    	$('#btn-sub').bind('click', function(){    
+	        $('#add').form('submit', {    
+			    url: '{% url "manage:manage_user_sub" %}',    
+			    success:function(data){    
+			        alert(data)    
+			    }    
+			});  
+	    }); 
+	    $('#btn-close').bind('click', function(){    
+	        $('#add-form').window('close');   
+	    }); 
+    </script>
+</body>  
+</html>

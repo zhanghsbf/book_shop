@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %}old book{% endblock %}
+
+{% block head %}
+<div class="jumbotron">
+	<h2>
+		你好，朋友！
+	</h2>
+	<p>
+		在这里你可以随意浏览其他人发布的书籍，挑选几本你喜欢的购买吧！ <br>
+		或者把你喜欢的书发布出来，分享给大家。
+	</p>
+	<p>
+		 <a class="btn btn-primary btn-large" href="#">Learn more</a>
+	</p>
+</div>
+{% endblock %}
+
+{% block content %}
+	<div class="row clearfix">
+		{% for hot in hot_post %}
+		<div class="col-md-4 column">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<a href="{% url 'post:post' hot.id %}">{{ hot.title }}</a>
+					</h3>
+				</div>
+				<div class="panel-body">
+					{{ hot.body | truncatechars:20 }}&nbsp;&nbsp;&nbsp;
+					<a href="{% url 'post:post' hot.id %}">详情>>></a>
+					<div>
+						<div class="panel-body">
+							{% if hot.photo1 %}
+							<img class="img-rounded post-img" src="{{ hot.photo1.url }}">
+							{% endif %}
+						</div>
+						<p>原价：{{hot.origin_price}}</p>
+						<p>售价：{{hot.price}}</p>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<div class="clearfix">
+						<div class="pull-left">
+							<span class="glyphicon glyphicon-eye-open"></span> 浏览量：{{hot.view_times}}
+						</div>
+						<div class="pull-right">
+							发布时间：{{hot.pub_date}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+	{% for i in cate_post_list %}
+	<div class="raw clearfix">
+		<h2>
+			{{i.cate.name}}
+			<a href="{% url 'post:category' i.cate.id %}">
+				<button class="btn btn-primary btn-mini">查看更多>>></button>
+			</a>
+		</h2>
+		
+		
+		{% for j in i.post %}
+		<div class="col-md-4 column">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<a href="{% url 'post:post' j.id %}">{{ j.title }}</a>
+					</h3>
+				</div>
+				<div class="panel-body">
+					{{ j.body | truncatechars:20 }}&nbsp;&nbsp;
+					<a href="{% url 'post:post' j.id %}">详情>>></a>
+					<div>
+						<div class="panel-body">
+							{% if j.photo1 %}
+							<img class="img-rounded post-img" src="{{ j.photo1.url }}">
+							{% endif %}
+						</div>
+						<p>原价：{{j.origin_price}}</p>
+						<p>售价：{{j.price}}</p>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<div class="clearfix">
+						<div class="pull-left">
+							<span class="glyphicon glyphicon-eye-open"></span> 浏览量：{{j.view_times}}
+						</div>
+						<div class="pull-right">
+							发布时间：{{j.pub_date}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% endfor %}
+{% endblock %}
